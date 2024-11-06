@@ -71,7 +71,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // Add a listener for marker clicks
         mMap.setOnMarkerClickListener { marker ->
             marker.showInfoWindow()
-            Toast.makeText(this, "MARKER CLICKED", Toast.LENGTH_SHORT).show() // Display a toast message
+            //Toast.makeText(this, "MARKER CLICKED", Toast.LENGTH_SHORT).show() // Display a toast message
             true // Return true to consume the event
         }
         mMap.setOnInfoWindowClickListener { marker ->
