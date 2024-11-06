@@ -37,6 +37,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    // Para acceder a los componentes de XML activamos el viewbinding
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 secrets {
