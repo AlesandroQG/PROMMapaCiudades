@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "es.icjardin.mapaciudadesalesandro"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "es.icjardin.mapaciudadesalesandro"
@@ -71,4 +71,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.google.android.gms:play-services-maps:19.0.0")
+
 }
