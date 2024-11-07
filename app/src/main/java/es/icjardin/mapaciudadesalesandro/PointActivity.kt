@@ -21,7 +21,7 @@ class PointActivity : AppCompatActivity() {
     /**
      * Id del punto
      */
-    private var idPoint: Int = -1
+    private var titlePoint: String = ""
 
     /**
      * Función que se ejecuta al crear la actividad
@@ -35,20 +35,20 @@ class PointActivity : AppCompatActivity() {
 
         db = PointDatabaseHelper(this)
 
-        idPoint = intent.getIntExtra("id_point", -1)
+        titlePoint = intent.getStringExtra("point").toString()
 
-        if (idPoint == -1) {
-            finishAffinity()
+        if (titlePoint.isBlank()) {
+            finish()
         }
 
-        val point = db.getIdPoint(idPoint)
+        val point = db.getTitlePoint(titlePoint)
         binding.title.text = point.title
         val imageResId = resources.getIdentifier(point.image, "raw", packageName)
         binding.image.setImageResource(imageResId)
         binding.text.text = point.text
 
         binding.btnBack.setOnClickListener {
-            finishAffinity()
+            finish()
         }
     }
 }

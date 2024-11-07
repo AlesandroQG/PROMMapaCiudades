@@ -3,9 +3,7 @@ package es.icjardin.mapaciudadesalesandro
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -32,6 +30,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     private lateinit var db: PointDatabaseHelper
 
+    val cities: List<Point> = listOf(
+        Point(0, "Vitoria", "Vitoria", 42.849998, -2.683333,"vitoria.jpg","Vitoria"),
+        Point(0, "Bilbao", "Bilbao", 43.263056, -2.934611,"bilbao.jpg",""),
+        Point(0, "Madrid", "Madrid", 40.416775, -3.703790,"madrid.jpg",""),
+        Point(0, "Barcelona", "Barcelona", 41.385064, 2.173403,"barcelona.jpg",""),
+        Point(0, "Sevilla", "Sevilla", 37.382830, -5.973174,"sevilla.jpg",""),
+        Point(0, "Valencia", "Valencia", 39.466667, -0.375000,"valencia.jpg",""),
+        Point(0, "Zaragoza", "Zaragoza", 41.650002, -0.883, "zaragoza.jpg",""),
+        Point(0, "Valladolid", "Valladolid", 41.650002, -0.883, "valladolid.jpg",""),
+        Point(0, "Salamanca", "Salamanca", 40.966668, -5.650000, "salamanca.jpg",""),
+        Point(0, "Oviedo", "Oviedo", 43.366667, -5.800000, "oviedo.jpg","")
+    )
+
     /**
      * Función que se ejecuta al crear la actividad
      *
@@ -45,6 +56,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /*for (city in cities) {
+            db.insertPoint(city)
+        }*/
         db.insertPoint(Point(0, "Vitoria", "Vitoria", 42.849998, -2.683333,"vitoria.jpg","Vitoria"))
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -71,12 +85,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // Add a listener for marker clicks
         mMap.setOnMarkerClickListener { marker ->
             marker.showInfoWindow()
-            //Toast.makeText(this, "MARKER CLICKED", Toast.LENGTH_SHORT).show() // Display a toast message
             true // Return true to consume the event
         }
         mMap.setOnInfoWindowClickListener { marker ->
             val intent = Intent(this, PointActivity::class.java)
-            intent.putExtra("point", marker.id)
+            intent.putExtra("point", marker.title)
             startActivity(intent)
         }
     }

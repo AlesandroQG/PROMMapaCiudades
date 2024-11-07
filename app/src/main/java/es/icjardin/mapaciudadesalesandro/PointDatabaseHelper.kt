@@ -139,4 +139,31 @@ class PointDatabaseHelper(context: Context) :
         return Point(id, title, description, lat, lon, image, text)
     }
 
+    /**
+     * Recibe un string con el título del punto, y devuelve el punto correspondiente de la base de datos
+     *
+     * @param titlePoint título del punto
+     * @return point
+     */
+    fun getTitlePoint(titlePoint: String): Point {
+        val db = readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_TITLE='$titlePoint'"
+        //lanza un cursor
+        val cursor = db.rawQuery(query, null)
+        //ve al primer registro que cumpla esa condicion (esperemos que el único)
+        cursor.moveToFirst()
+        //leo los datos de la consulta
+        val id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
+        val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE))
+        val description = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION))
+        val lat = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_LAT))
+        val lon = cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_LON))
+        val image = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE))
+        val text = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TEXT))
+        //cierro conexiones y devuelvo la task
+        cursor.close()
+        db.close()
+        return Point(id, title, description, lat, lon, image, text)
+    }
+
 }
