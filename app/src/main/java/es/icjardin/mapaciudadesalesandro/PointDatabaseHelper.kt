@@ -166,4 +166,13 @@ class PointDatabaseHelper(context: Context) :
         return Point(id, title, description, lat, lon, image, text)
     }
 
+    /**
+     * Elimina todos los puntos de la tabla
+     */
+    fun deleteAllPoints() {
+        val db = writableDatabase
+        db.delete(TABLE_NAME, null, null)
+        db.close()
+    }
+
 }

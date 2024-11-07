@@ -19,7 +19,7 @@ class PointActivity : AppCompatActivity() {
     private lateinit var db: PointDatabaseHelper
 
     /**
-     * Id del punto
+     * Título del punto
      */
     private var titlePoint: String = ""
 
@@ -35,18 +35,22 @@ class PointActivity : AppCompatActivity() {
 
         db = PointDatabaseHelper(this)
 
-        titlePoint = intent.getStringExtra("point").toString()
+        titlePoint = intent.getStringExtra("point").toString() // Obtener el título del punto
 
+        // Si el título del punto es nulo, volver atras
         if (titlePoint.isBlank()) {
             finish()
         }
 
-        val point = db.getTitlePoint(titlePoint)
+        val point = db.getTitlePoint(titlePoint) // Obtener el punto de la base datos
+
+        // Relleno la ventana con la información del punto
         binding.title.text = point.title
-        val imageResId = resources.getIdentifier(point.image, "raw", packageName)
-        binding.image.setImageResource(imageResId)
+        val imageResId = resources.getIdentifier(point.image, "raw", packageName) // Obtener el id de la imagen
+        binding.image.setImageResource(imageResId) // Asigna la imagen al ImageView
         binding.text.text = point.text
 
+        // Event listener para el botón de atras
         binding.btnBack.setOnClickListener {
             finish()
         }
