@@ -41,6 +41,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         db = PointDatabaseHelper(this)
 
+        db.cargarCiudades() // Cargar las ciudades a la base de datos
+
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

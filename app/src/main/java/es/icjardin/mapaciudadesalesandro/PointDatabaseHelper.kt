@@ -57,7 +57,6 @@ class PointDatabaseHelper(context: Context) :
                     "$COLUMN_IMAGE TEXT, " +
                     "$COLUMN_TEXT TEXT)"
         db?.execSQL(createTableQuery)
-        cargarCiudades() // Cargar ciudades
     }
 
     /**
@@ -77,9 +76,10 @@ class PointDatabaseHelper(context: Context) :
     /**
      * Carga las ciudades en la base de datos
      */
-    private fun cargarCiudades() {
-        Log.d("cargarCiudades", "CARGANDO")
+    fun cargarCiudades() {
+        deleteAllPoints() // Eliminar puntos
         for (ciudad in ciudades) {
+            // Recorrer las ciudades cargandolas en la base de datos
             insertPoint(ciudad)
         }
     }
@@ -92,19 +92,25 @@ class PointDatabaseHelper(context: Context) :
     fun insertPoint(point: Point) {
         //la abro en modo escritura
         val db = writableDatabase
-        val values = ContentValues().apply {
-            put(COLUMN_TITLE, point.title)
-            put(COLUMN_DESCRIPTION, point.description)
-            put(COLUMN_LAT, point.lat)
-            put(COLUMN_LON, point.lon)
-            put(COLUMN_IMAGE, point.image)
-            put(COLUMN_TEXT, point.text)
-            //en este caso ID es autonumérico
+        db.beginTransaction()
+        try {
+            val values = ContentValues().apply {
+                put(COLUMN_TITLE, point.title)
+                put(COLUMN_DESCRIPTION, point.description)
+                put(COLUMN_LAT, point.lat)
+                put(COLUMN_LON, point.lon)
+                put(COLUMN_IMAGE, point.image)
+                put(COLUMN_TEXT, point.text)
+                //en este caso ID es autonumérico
+            }
+            //insertamos datos
+            db.insert(TABLE_NAME, null, values)
+            //y ahora a cerrar
+            //db.close()
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
         }
-        //insertamos datos
-        db.insert(TABLE_NAME, null, values)
-        //y ahora a cerrar
-        db.close()
     }
 
     /**
@@ -165,6 +171,15 @@ class PointDatabaseHelper(context: Context) :
         cursor.close()
         db.close()
         return Point(id, title, description, lat, lon, image, text)
+    }
+
+    /**
+     * Elimina todos los puntos de la tabla
+     */
+    fun deleteAllPoints() {
+        val db = writableDatabase
+        db.delete(TABLE_NAME, null, null)
+        db.close()
     }
 
 }
